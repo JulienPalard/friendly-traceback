@@ -72,6 +72,7 @@ parser.add_argument(
 parser.add_argument(
     "--level",
     type=int,
+    default=1,
     help="""This sets the "verbosity" level, that is the amount of information
             provided.
          """,
@@ -130,15 +131,11 @@ def main():
     args = parser.parse_args()
     if args.dev:
         console_dict["tokenize"] = public_api.make_token_table
-    if args.lang:
-        public_api.set_lang(args.lang)
-    if args.level is not None:
-        public_api.set_level(args.level)
     if args.version:
         print(f"Friendly-traceback version {public_api.__version__}")
         sys.exit()
 
-    public_api.install()
+    public_api.install(lang=args.lang, level=args.level)
 
     if args.formatter:
         public_api.set_formatter(import_function(args.formatter))
